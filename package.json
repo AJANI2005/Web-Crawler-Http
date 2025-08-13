@@ -1,0 +1,28 @@
+{
+  "name": "web-crawler-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AJANI2005/Web-Crawler-Http.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "CommonJS",
+  "bugs": {
+    "url": "https://github.com/AJANI2005/Web-Crawler-Http/issues"
+  },
+  "homepage": "https://github.com/AJANI2005/Web-Crawler-Http#readme",
+  "devDependencies": {
+    "jest": "^30.0.5"
+  },
+  "jest":{
+    "testEnvironment": "node"
+  }
+}
