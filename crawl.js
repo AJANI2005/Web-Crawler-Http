@@ -1,28 +1,52 @@
 const { JSDOM } = require("jsdom");
 
-async function crawlURL(url) {
-  console.log("Active Crawling", url);
+async function crawlURL(baseURL, currentURL, pages) {
+  // base cases
+  //
+  // 1. check if same origin
+  const baseURLObj = new URL(baseURL);
+  const currentURLObj = new URL(currentURL);
+  if (baseURLObj.hostname !== currentURLObj.hostname) {
+    return pages;
+  }
+
+  // 2. check if page has been seen already
+  const normalizedCurrentURL = normalizeURL(currentURL);
+  if (pages[normalizedCurrentURL] > 0) {
+    // increment the number of times that page has been seen
+    pages[normalizedCurrentURL]++;
+    return pages;
+  }
+
+  pages[normalizedCurrentURL] = 1;
+  console.log("Active Crawling: ", currentURL);
   try {
-    const res = await fetch(url);
+    const res = await fetch(currentURL);
     if (res.status > 399) {
       console.log(
-        `error fetching with status code ${res.status} on page: ${url}`,
+        `error fetching with status code ${res.status} on page: ${currentURL}`,
       );
-      return;
+      return pages;
     }
+    // expect html
     const contentType = res.headers.get("content-type");
     if (!contentType.includes("text/html")) {
       console.log(
-        `error fetching url: ${url} , expected html but got ${contentType}`,
+        `error fetching url: ${currentURL} , expected html but got ${contentType}`,
       );
-      return;
+      return pages;
     }
-    const body = await res.text();
-    console.log(body);
-    return body;
+
+    // check for more urls to crawl
+    const htmlBody = await res.text();
+    const nextURLs = getURLsFromHTML(htmlBody, baseURL);
+    for (const nextURL of nextURLs) {
+      pages = await crawlURL(baseURL, nextURL, pages);
+    }
+    return pages;
   } catch (e) {
     console.log(`error fetching url: ${e.message}`);
-    return;
+    return pages;
   }
 }
 
@@ -59,12 +83,11 @@ function normalizeURL(url) {
     if (hostPath.length > 0 && hostPath.slice(-1) === "/") {
       return hostPath.slice(0, -1);
     }
+    return hostPath;
   } catch (e) {
     console.log(`error normalizing url ${e.message}`);
     return;
   }
-
-  return hostPath;
 }
 
 module.exports = {
