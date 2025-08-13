@@ -1,2 +1,5 @@
 ## Basic Web Crawler
-Usage node main.js url
+Usage: 
+```bash
+node main.js url
+```
