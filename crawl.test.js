@@ -1,29 +1,29 @@
-const { normalizeUrl, getURLsFromHTML } = require("./crawl.js");
+const { normalizeURL, getURLsFromHTML } = require("./crawl.js");
 const { test, expect } = require("@jest/globals");
 
-test("normalizeUrl strip protocol", () => {
+test("normalizeURL strip protocol", () => {
   const input = "https://www.example.com/path";
-  const actual = normalizeUrl(input);
+  const actual = normalizeURL(input);
   const expected = "www.example.com/path";
   expect(actual).toBe(expected);
 });
 
-test("normalizeUrl trailing slash", () => {
+test("normalizeURL trailing slash", () => {
   const input = "https://www.example.com/path/";
-  const actual = normalizeUrl(input);
+  const actual = normalizeURL(input);
   const expected = "www.example.com/path";
   expect(actual).toBe(expected);
 });
 
-test("normalizeUrl capitals", () => {
+test("normalizeURL capitals", () => {
   const input = "https://WWW.example.com/path/";
-  const actual = normalizeUrl(input);
+  const actual = normalizeURL(input);
   const expected = "www.example.com/path";
   expect(actual).toBe(expected);
 });
-test("normalizeUrl strip http", () => {
+test("normalizeURL strip http", () => {
   const input = "http://www.example.com/path/";
-  const actual = normalizeUrl(input);
+  const actual = normalizeURL(input);
   const expected = "www.example.com/path";
   expect(actual).toBe(expected);
 });
