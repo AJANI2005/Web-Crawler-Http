@@ -22,7 +22,7 @@
   "devDependencies": {
     "jest": "^30.0.5"
   },
-  "jest":{
-    "testEnvironment": "node"
+  "dependencies": {
+    "jsdom": "^26.1.0"
   }
 }
