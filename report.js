@@ -4,7 +4,7 @@ function printReport(pages) {
   console.log("*-----*");
   const sortedPages = sortPages(pages);
   for (const page in sortedPages) {
-    console.log(`Found ${pages[page]} links on : ${page}`);
+    console.log(`Found ${pages[page]} links to : ${page}`);
   }
 }
 
